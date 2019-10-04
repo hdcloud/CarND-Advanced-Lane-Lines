@@ -55,6 +55,8 @@ I then used the output `objpoints` and `imgpoints` to compute the camera calibra
 
 ![calibrated_image][image4]
 
+---
+
 ### Pipeline (single images)
 
 #### 1. Provide an example of a distortion-corrected image.
@@ -68,14 +70,17 @@ The result image is the same as above.
 I used a combination of color and gradient thresholds to generate a binary image for lane edge detection.  
 The thresholding functions are defined in the section of "Third, Color and Gradient thresholding". 
 
+Before combining both thresholding functions, each thresholding (color and gradient) has been tested and compared in the section, "Color/Gradient Thresholding Verification (1)"
+
+The original image is as follows.
+![Original Image][image2]
+
 For the color threshold, the RGB image was converted to HLS color scheme first, and only S channel was filtered after that. S channel is especially useful in detecting yellow line of the lane to complement the edges detected from the gradient threshold using Sobel operation. 
+
+![Color Threshold][image11]
+
 For the gradient threshold, both X-axis oriented and directional (with angles) operations are used.
 
-Before combining both, each thresholding (color and gradient) has been tested and compared in the section, "Color/Gradient Thresholding Verification (1)".
-
-Each thresholding result images are as follows.
-![Original Image][image2]
-![Color Threshold][image11]
 ![Gradient Threshold][image13]
 
 The combination of gradient and color thresholding has been applied and tested in the section, "Color/Gradient Combined Thresholding Verification (2)". 
@@ -104,7 +109,11 @@ The source and destination points selected are as follows.
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel on the warped image in the bird-eye view. 
 
 The source and resulting bird-eye view are as follows.
+
+* Source Image *
 ![Camera View][image2]
+
+* Bird-eye View *
 ![Birdeye View][image6]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
@@ -112,7 +121,8 @@ The source and resulting bird-eye view are as follows.
 The method to identify lane-line pixels using the slide window approach is implemented in the section, "Finding the Lines: Slide Window". 
 This slide window method is applied when there is no prior polynomial Fit information.
 
-Here, I used 10 slide windows and for the initial window position for the line detection, histogram has been used which gives the best X positions where more line pixels are located. 
+Here, I used 10 slide windows and for the initial window position for the line detection, histogram has been used which gives the best X positions where more line pixels are located.
+
 ![histogram][image14]
 
 In each slide window, pixel positions will be recorded and it will determine the next window based on the average X value of the pixels located in the current window. It will continue till the last slide window.
@@ -125,7 +135,7 @@ It will check all the pixel information against the polynomial Fit with the marg
 The implementation is in the section, "Finding the Lines: Search from Prior".
 
 The line pixel detection applied using the prior polynomial Fit is shown in this image.
-![Prior Fit applied][image16]
+![Prior Fit applied][image17]
 
 With either method, the line pixels would have been recorded in (leftx, lefty) for the left line of the lane and in (rightx, righty) for the right line of the lane.
 With those pixels, the polynomial Fit can be calculated using "np.polyfit()" as below.
@@ -148,8 +158,8 @@ curverad = ((1 + (2*fit[0]*y_eval*ym_per_pix + fit[1])**2)**1.5) / np.absolute(2
 For the vehicle distance with respect to center, the assumption is that the current vehicle location is at the center of the bottom of the image in X-axis, since it's a camera view. 
 Using the polynomial Fit info, we can find X positions of both lines given the bottom Y.
 
-L-Line X position: left_fit[0]*h**2 + left_fit[1]*h + left_fit[2],
-R-Line X postion: right_fit[0]*h**2 + right_fit[1]*h + right_fit[2],
+    L-Line X position: left_fit[0]*h**2 + left_fit[1]*h + left_fit[2],
+    R-Line X postion: right_fit[0]*h**2 + right_fit[1]*h + right_fit[2],
 where h is the image height (bottom of the image).
 
 The middle position of L-Line X and R-Line is a line center, and we can compare this with the image X center to find out the position of the vehicle with respect to center.
@@ -185,5 +195,6 @@ The most difficulty I have with is determining whether the lane (lines) detected
 The current solution is not appropriate at this moment, since I observe that the slide window approach has been used only once at the start of the video, and since then it was never invoked. 
 I would need to revisit this line validity checking function. 
 
-I would also appreciate if you could provide some valid solution/algorithm in verifying the line validity.
+I would also appreciate if you could also provide some valid solution/algorithm in verifying the line validity.
+
 Thanks!
