@@ -49,7 +49,7 @@ The goals / steps of this project are the following:
 
 The code for this step is contained in the first code cell of the IPython notebook located in "./P2.ipynb".  
 
-I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  For the same, the test images will also be converted into gray image. The 'objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time all chessboard corners in a test image are detected.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
+I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  For the same, the test images will also be converted into gray image. The '`objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time all chessboard corners in a test image are detected.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
 I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
 
@@ -110,10 +110,10 @@ I verified that my perspective transform was working as expected by drawing the 
 
 The source and resulting bird-eye view are as follows.
 
-* Source Image *
+* Source Image 
 ![Camera View][image2]
 
-* Bird-eye View *
+* Bird-eye View 
 ![Birdeye View][image6]
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
@@ -135,6 +135,7 @@ It will check all the pixel information against the polynomial Fit with the marg
 The implementation is in the section, "Finding the Lines: Search from Prior".
 
 The line pixel detection applied using the prior polynomial Fit is shown in this image.
+
 ![Prior Fit applied][image17]
 
 With either method, the line pixels would have been recorded in (leftx, lefty) for the left line of the lane and in (rightx, righty) for the right line of the lane.
